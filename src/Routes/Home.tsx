@@ -1,4 +1,5 @@
 function Home(){
-    return null;
+    return <div style={{backgroundColor:"black", height:"200vw"}}>
+        </div>
 }
 export default Home;

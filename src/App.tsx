@@ -5,11 +5,13 @@ import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Home from './Routes/Home';
 import Tv from './Routes/Tx';
 import Search from './Routes/Search';
+import Header from './Routes/Header';
 
 
 function App() {
   return (
   <Router>
+    <Header />
     <Switch>
       <Route path="/">
         <Home />
