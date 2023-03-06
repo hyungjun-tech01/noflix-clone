@@ -45,7 +45,7 @@ footer, header, hgroup, main, menu, nav, section {
 body {
   font-family: 'Source Sans Pro', sans-serif;
   background-color : linear-gradient(135deg, #e09, #d0e);;
-  color : black;
+  color : white;
   
 }
 // a tag에 밑줄 하지 않게 
