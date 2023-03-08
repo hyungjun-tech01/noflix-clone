@@ -1,5 +1,5 @@
 function Home(){
     return <div style={{backgroundColor:"wihte", height:"200vw"}}>
-        </div>
+        Home</div>
 }
 export default Home;
