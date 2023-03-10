@@ -1,17 +1,18 @@
 import {Link, useRouteMatch} from "react-router-dom";
-import { motion, useAnimation, useAnimationFrame } from "framer-motion";
+import { motion, useAnimation, useAnimationFrame, useMotionValueEvent, useScroll } from "framer-motion";
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRecoilBridgeAcrossReactRoots_UNSTABLE } from "recoil";
 
 
-const Nav = styled.nav`
+const Nav = styled(motion.nav)`
     display:flex;
     justify-content:space-between;
     align-items: center;
     position: fixed;
     width : 100%;
     top:0;
-    background-color: black;
+
     height:90px;
     font-size:13px;
 `;
@@ -86,12 +87,22 @@ const logoVariant={
         },
     }
 };
-
+const navVariants = {
+    top:{
+        backgroundColor:"rgba(0,0,0,0)",
+    },
+    scroll:{
+        backgroundColor:"rgba(0,0,0,1)",
+    }
+}
 function Header(){
     const homeMatch = useRouteMatch("/");
     const tvMatch = useRouteMatch("/tv");
     const [searchOpen, setSearchOpen] = useState(false);
     const inputAnimation = useAnimation();
+    const scrollAnimation = useAnimation();
+    const {scrollY} = useScroll();
+    console.log(homeMatch, tvMatch);
     const OpenSearch = ()=>{
         if(searchOpen){
             inputAnimation.start({
@@ -105,8 +116,18 @@ function Header(){
 
         setSearchOpen(prev => !prev);
     }
+
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        
+        if(latest > 80) {
+            scrollAnimation.start("scroll")
+        }else{
+            scrollAnimation.start("top")
+        }
+    });
+
     return (
-        <Nav>
+        <Nav variants={navVariants} initial={"top"}  animate= {scrollAnimation}>
             <Col>
                 <Logo
                     variants = {logoVariant}
@@ -127,7 +148,7 @@ function Header(){
             <Col>
                 <Search onClick={OpenSearch}> 
                 <motion.svg
-                  animate={{ x:searchOpen ? -200:0}}
+                  animate={{ x:searchOpen ? -210:0}}
                   transition={{type:"linear"}}
                   fill="currentColor"
                   viewBox="0 0 20 20"
@@ -141,6 +162,7 @@ function Header(){
                 <Input 
 
                     animate= {inputAnimation}
+                    initial = {{scaleX:0}}
                     transition={{type:"linear"}}
                     placeholder ="search for movie "/>
                 </Search>
