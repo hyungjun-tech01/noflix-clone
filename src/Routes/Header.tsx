@@ -1,8 +1,7 @@
 import {Link, useRouteMatch} from "react-router-dom";
-import { motion, useAnimation, useAnimationFrame, useMotionValueEvent, useScroll } from "framer-motion";
+import { motion, useAnimation, useMotionValueEvent, useScroll } from "framer-motion";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { useRecoilBridgeAcrossReactRoots_UNSTABLE } from "recoil";
+import {  useState } from "react";
 
 
 const Nav = styled(motion.nav)`
@@ -102,7 +101,7 @@ function Header(){
     const inputAnimation = useAnimation();
     const scrollAnimation = useAnimation();
     const {scrollY} = useScroll();
-    console.log(homeMatch, tvMatch);
+
     const OpenSearch = ()=>{
         if(searchOpen){
             inputAnimation.start({
@@ -146,8 +145,9 @@ function Header(){
                 </Items>
             </Col>
             <Col>
-                <Search onClick={OpenSearch}> 
+                <Search > 
                 <motion.svg
+                  onClick={OpenSearch}
                   animate={{ x:searchOpen ? -210:0}}
                   transition={{type:"linear"}}
                   fill="currentColor"

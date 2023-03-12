@@ -1,9 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Home from './Routes/Home';
-import Tv from './Routes/Tx';
+import Tv from './Routes/Tv';
 import Search from './Routes/Search';
 import Header from './Routes/Header';
 
