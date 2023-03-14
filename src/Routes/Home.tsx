@@ -69,6 +69,19 @@ const rowVariants = {
     },
 }
 
+const BoxVariants = {
+    normal :{
+        scale : 1,
+    },
+    hover:{
+        y:-30,
+        scale : 1.3,
+        transition : {
+            delay:0.4,
+            type:"tween"
+        },
+    },
+}
 function Home(){
     const {data, isLoading} = useQuery<IGetMoviesResults>(["movies", "nowPlaying"],getMovies);
     const [index, setIndex] = useState(0);
@@ -109,6 +122,10 @@ function Home(){
                        .map((movie)=>(
                         <Box key={movie.id}
                             bgPhoto={makeImagePath(movie.poster_path || "","w500" )} 
+                            variants = {BoxVariants}
+                            initial = "normal"
+                            whileHover="hover"
+                            transition={{ type:"tween"}}
                             />
                          ))
                        }
