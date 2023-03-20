@@ -63,7 +63,11 @@ const Box = styled(motion.div)<{bgPhoto:string}>`
         transform-origin: center right;
     }
  `;
-
+const Info = styled(motion.div)`
+    padding:20px;
+    background-color:${(prop) => prop.theme.black.lighter};
+    opacity: 0;
+`;
 const rowVariants = {
     hidden : {
         x:window.outerWidth-10,
@@ -89,6 +93,11 @@ const BoxVariants = {
             type:"tween"
         },
     },
+}
+const infoVariants = {
+    hover:{
+        opacity:1, 
+    }
 }
 function Home(){
     const history = useHistory();
@@ -142,7 +151,9 @@ function Home(){
                             initial = "normal"
                             whileHover="hover"
                             transition={{ type:"tween"}}
-                            />
+                            >
+                                <Info variants={infoVariants}/>
+                                </Box>
                          ))
                        }
                     </Row>
