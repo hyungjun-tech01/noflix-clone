@@ -4,6 +4,7 @@ import {getMovies, IGetMoviesResults} from "../api";
 import {makeImagePath} from "../utils";
 import {motion, AnimatePresence} from "framer-motion";
 import {useState} from "react";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 const Wrapper = styled.div`
     background : black;
@@ -55,6 +56,12 @@ const Box = styled(motion.div)<{bgPhoto:string}>`
     height:200px;
     color:red;
     font-size:20px;  
+    &:first-child {
+        transform-origin: center left;
+    }
+    &:last-child {
+        transform-origin: center right;
+    }
  `;
 
 const rowVariants = {
@@ -77,17 +84,20 @@ const BoxVariants = {
         y:-30,
         scale : 1.3,
         transition : {
-            delay:0.4,
+            delay:0.3,
+            duration:0.2,
             type:"tween"
         },
     },
 }
 function Home(){
+    const history = useHistory();
+    const bigMovieMatch = useRouteMatch<{movieId:string}>("/movies/:movieId");
     const {data, isLoading} = useQuery<IGetMoviesResults>(["movies", "nowPlaying"],getMovies);
     const [index, setIndex] = useState(0);
     const [leaving, setLeaving] = useState(false);
     const offset = 6;
-    console.log(data);
+    console.log(bigMovieMatch);
     const increaseIndex = ()=>{
         if(data){
             if(leaving) return;
@@ -99,6 +109,9 @@ function Home(){
         }
     };
     const toggleLeaving = () => {setLeaving(prev => !prev)};
+    const onBoxClick = (movieId:number)=> {
+        history.push(`/movies/${movieId}`); // url을 변경 ..
+    }
     return (
         <Wrapper>
             {isLoading? <Loader>Loading...</Loader>:
@@ -120,7 +133,10 @@ function Home(){
                        {data?.results
                        .slice(offset*index, offset*index+offset)
                        .map((movie)=>(
-                        <Box key={movie.id}
+                        <Box 
+                            layoutId={movie.id+""} 
+                            key={movie.id}
+                            onClick={()=>onBoxClick(movie.id)}
                             bgPhoto={makeImagePath(movie.poster_path || "","w500" )} 
                             variants = {BoxVariants}
                             initial = "normal"
@@ -132,6 +148,23 @@ function Home(){
                     </Row>
                     </AnimatePresence>
                 </Slider>
+                <AnimatePresence>
+                   { bigMovieMatch ? ( 
+                   <motion.div 
+                       layoutId= {bigMovieMatch.params.movieId}
+                       style={{
+                            position: "absolute",
+                            width: "40vw",
+                            height:"80vh",
+                            backgroundColor: "red",
+                            top:50,
+                            left:0,
+                            right:0,
+                            margin: "0 auto",
+                        }} /> 
+                      ): null
+                    }
+                </AnimatePresence>
             </> }
         </Wrapper>
     );
