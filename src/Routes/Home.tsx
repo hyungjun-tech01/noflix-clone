@@ -81,12 +81,24 @@ const BigMovie = styled(motion.div)`
     position: absolute;
     width: 40vw;
     height:80vh;
-    top:scrollY.get()+100;
     left:0;
     right:0;
     margin: 0 auto;
+    border-radius : 15px;
+    overflow : hidden;
+    background-color: ${props=>props.theme.black.lighter};
 `;
-
+const BigCover = styled.img`
+    width:100%;
+    background-size : cover;
+    background-position:center center;
+    height:400px;
+`;
+const BigTitle = styled.h3`
+    color : ${props=>props.theme.white.lighter};
+    text-align : center;
+    font-size: 28px;
+`;
 const rowVariants = {
     hidden : {
         x:window.outerWidth-10,
@@ -191,11 +203,16 @@ function Home(){
                         <Overlay onClick={()=> onOverlayClick()}
                             exit={{opacity:0}}
                         ></Overlay>
-                        <motion.div 
-                            layoutId= {bigMovieMatch.params.movieId}
-                            style={{
-
-                                }} /> 
+                        <BigMovie 
+                                style = {{ top:scrollY.get()+100 }}
+                                layoutId= {bigMovieMatch.params.movieId} > 
+                            {clickedMovie && <>
+                            <BigCover style = {{
+                                backgroundImage:`url(${makeImagePath(clickedMovie.backdrop_path, "w500")})`
+                            }}></BigCover>
+                            <BigTitle>{clickedMovie.title}</BigTitle>
+                            </>}
+                        </BigMovie>
                     </>    
                     ): null
                     }
