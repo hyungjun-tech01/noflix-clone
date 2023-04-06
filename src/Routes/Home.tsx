@@ -54,8 +54,8 @@ const Box = styled(motion.div)<{bgPhoto:string}>`
     background-size : cover;
     background-position:center center;
     height:200px;
-    color:red;
-    font-size:20px;  
+    font-size:20px;
+    cursor:pointer;
     &:first-child {
         transform-origin: center left;
     }
@@ -67,6 +67,13 @@ const Info = styled(motion.div)`
     padding:20px;
     background-color:${(prop) => prop.theme.black.lighter};
     opacity: 0;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    h4 {
+      text-align: center;
+      font-size: 18px;
+    }
 `;
 const Overlay = styled(motion.div)`
     position: fixed;
@@ -92,13 +99,24 @@ const BigCover = styled.img`
     width:100%;
     background-size : cover;
     background-position:center center;
-    height:400px;
+    height:300px;
 `;
 const BigTitle = styled.h3`
     color : ${props=>props.theme.white.lighter};
-    text-align : center;
+    text-align : left;
+    padding:20px;
     font-size: 28px;
+    position:relative;
+    top:-80px;
 `;
+
+const BigOverview = styled.p`
+    padding:10px;
+    position:relative;
+    top:-80px;
+    color: ${props =>props.theme.white.lighter}; 
+`;
+
 const rowVariants = {
     hidden : {
         x:window.outerWidth-10,
@@ -116,7 +134,8 @@ const BoxVariants = {
         scale : 1,
     },
     hover:{
-        y:-30,
+        opacity:1,
+        y:-80,
         scale : 1.3,
         transition : {
             delay:0.3,
@@ -211,6 +230,7 @@ function Home(){
                                 backgroundImage:`url(${makeImagePath(clickedMovie.backdrop_path, "w500")})`
                             }}></BigCover>
                             <BigTitle>{clickedMovie.title}</BigTitle>
+                            <BigOverview>{clickedMovie.overview}</BigOverview>
                             </>}
                         </BigMovie>
                     </>    
